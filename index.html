@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spec-Driven AI Development System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0b;
+            color: #e4e4e7;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #818cf8;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            color: #a1a1aa;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .cta-sub {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #71717a;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .section-label {
+            color: #ef4444;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .problem h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 32px;
+        }
+
+        .problem-list {
+            list-style: none;
+        }
+
+        .problem-list li {
+            padding: 16px 0;
+            padding-left: 32px;
+            position: relative;
+            font-size: 18px;
+            color: #a1a1aa;
+            border-bottom: 1px solid #1f1f23;
+        }
+
+        .problem-list li::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .solution .section-label {
+            color: #22c55e;
+        }
+
+        .solution h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 24px;
+        }
+
+        .solution p {
+            font-size: 18px;
+            color: #a1a1aa;
+            margin-bottom: 32px;
+        }
+
+        .workflow-box {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .workflow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .workflow-step {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .workflow-step .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .workflow-step .label {
+            font-size: 14px;
+            color: #a1a1aa;
+        }
+
+        .workflow-arrow {
+            color: #6366f1;
+            font-size: 24px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #c4b5fd;
+            font-size: 16px;
+        }
+
+        /* What's Inside Section */
+        .whats-inside {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .whats-inside .section-label {
+            color: #6366f1;
+        }
+
+        .whats-inside h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 32px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: #71717a;
+            margin: 0;
+        }
+
+        .feature-count {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Proof Section */
+        .proof {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .proof-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 32px;
+        }
+
+        .proof-quote {
+            font-size: 20px;
+            color: #e4e4e7;
+            font-style: italic;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .proof-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .proof-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .proof-info .name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .proof-info .title {
+            font-size: 14px;
+            color: #71717a;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .pricing h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .pricing .subtitle {
+            text-align: center;
+            color: #71717a;
+            margin-bottom: 40px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pricing-card {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 32px;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #6366f1;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, #18181b 100%);
+        }
+
+        .pricing-card.featured::before {
+            content: "BEST VALUE";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #6366f1;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .pricing-card .price span {
+            font-size: 18px;
+            color: #71717a;
+            font-weight: 400;
+        }
+
+        .pricing-card .description {
+            font-size: 14px;
+            color: #71717a;
+            margin-bottom: 24px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 14px;
+            color: #a1a1aa;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .pricing-button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .pricing-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .pricing-button.primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .pricing-button.secondary {
+            background: #27272a;
+            color: white;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 60px 0;
+            border-top: 1px solid #27272a;
+        }
+
+        .faq h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #27272a;
+            padding: 24px 0;
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .faq-item p {
+            font-size: 16px;
+            color: #a1a1aa;
+            margin: 0;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #27272a;
+        }
+
+        .final-cta h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            color: #a1a1aa;
+            margin-bottom: 32px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid #27272a;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: #52525b;
+        }
+
+        footer a {
+            color: #6366f1;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge">Complete Developer Toolkit</div>
+            <h1>Stop Re-Explaining Your Codebase to <span>AI Every 10 Minutes</span></h1>
+            <p class="subtitle">The spec-driven system that turned a 45-day backend project into 5 days — while keeping code reviewable, testable, and maintainable.</p>
+            <a href="https://hathwar.gumroad.com/l/spec-driven-ai" class="cta-button">Get the Toolkit →</a>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <p class="section-label">The Problem</p>
+            <h2>You know the drill...</h2>
+            <ul class="problem-list">
+                <li>AI writes code → you forget why it exists two weeks later</li>
+                <li>Session resets → you re-explain everything from scratch</li>
+                <li>6 months later → "who wrote this garbage?" (you did, with AI)</li>
+                <li>PR reviews → "what was the requirement for this?"</li>
+                <li>New team member joins → zero context on AI-assisted decisions</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution">
+        <div class="container">
+            <p class="section-label">The Solution</p>
+            <h2>A Complete Execution History System</h2>
+            <p>Instead of jumping straight to code, you generate specifications first. Then every planning decision and todo gets tracked in markdown files that stay with your project forever.</p>
+
+            <div class="workflow-box">
+                <div class="workflow-steps">
+                    <div class="workflow-step">
+                        <div class="icon">📋</div>
+                        <div class="label">Requirement</div>
+                    </div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">
+                        <div class="icon">🏗️</div>
+                        <div class="label">Architect Spec</div>
+                    </div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">
+                        <div class="icon">📝</div>
+                        <div class="label">Dev Spec</div>
+                    </div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">
+                        <div class="icon">⚡</div>
+                        <div class="label">Tracked Execution</div>
+                    </div>
+                    <span class="workflow-arrow">→</span>
+                    <div class="workflow-step">
+                        <div class="icon">✅</div>
+                        <div class="label">Done</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>The key insight:</strong> Plans move from <code>plans/</code> → <code>in-progress/</code> → <code>plans-executed/</code>. Six months from now, you open this folder and know exactly what happened and why.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What's Inside Section -->
+    <section class="whats-inside">
+        <div class="container">
+            <p class="section-label">What's Inside</p>
+            <h2>24+ Production-Tested Tools</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Spec Generators <span class="feature-count">2 prompts</span></h3>
+                    <p>Architect spec + development spec generators. Turn requirements into complete specifications before writing code.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Session Management <span class="feature-count">6 commands</span></h3>
+                    <p>Start, update, end sessions. Track progress across coding sessions. Pick up exactly where you left off.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Execution Tracking <span class="feature-count">3-folder system</span></h3>
+                    <p>Plans → In-Progress → Executed. Your complete execution history preserved forever.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Spec & Git Workflow <span class="feature-count">4 commands</span></h3>
+                    <p>Spec execution, spec file creation, branch creation, conventional commits. Stay consistent.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Test Generation <span class="feature-count">1 skill + 6 guides</span></h3>
+                    <p>Spring Boot test generator with comprehensive reference guides. Controller, service, repository tests.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Code Review Agents <span class="feature-count">2 agents</span></h3>
+                    <p>Java code reviewer (OWASP, SOLID, performance) + API test reviewer. Auto-activates on file changes.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Example Specifications <span class="feature-count">2 real specs</span></h3>
+                    <p>Complete architect + development spec examples from real enterprise projects.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>CLAUDE.md Guidelines <span class="feature-count">Ready to use</span></h3>
+                    <p>Working guidelines that enforce the spec-driven workflow automatically.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proof Section -->
+    <section class="proof">
+        <div class="container">
+            <div class="proof-card">
+                <p class="proof-quote">"Built 3 enterprise platforms using this exact system. 45-day projects compressed to 5 days. Full audit trail. Zero 'why did we build this?' moments. The execution history is still readable months later."</p>
+                <div class="proof-author">
+                    <div class="proof-avatar">S</div>
+                    <div class="proof-info">
+                        <div class="name">Samarth Hathwar</div>
+                        <div class="title">Backend Engineer, 6.5 years enterprise experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <h2>Simple Pricing</h2>
+            <p class="subtitle">One-time purchase. No subscription. Yours forever.</p>
+
+            <div class="pricing-single">
+                <div class="pricing-card featured" style="max-width: 500px; margin: 0 auto;">
+                    <h3>Complete Toolkit</h3>
+                    <div class="price">$49 <span>USD</span></div>
+                    <p class="description">Everything included — no upsells</p>
+                    <ul class="pricing-features">
+                        <li>Spec generators (architect + dev)</li>
+                        <li>CLAUDE.md workflow guidelines</li>
+                        <li>Execution tracking (3-folder system)</li>
+                        <li>Session management (6 commands)</li>
+                        <li>Spec & git workflow (4 commands)</li>
+                        <li>Java code review agent</li>
+                        <li>API test review agent</li>
+                        <li>Spring Boot test generator</li>
+                        <li>6 testing reference guides</li>
+                        <li>2 example specifications</li>
+                        <li>Future updates included</li>
+                    </ul>
+                    <a href="https://hathwar.gumroad.com/l/spec-driven-ai" class="pricing-button primary">Get the Toolkit →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2>Questions?</h2>
+
+            <div class="faq-item">
+                <h3>Do I need Claude Code?</h3>
+                <p>Yes, this is built for Claude Code (Anthropic's CLI tool). The workflow concepts apply to other AI tools, but the commands are designed for Claude Code specifically.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is this just prompts?</h3>
+                <p>No. It's a complete workflow system with execution tracking, session management, automated code review, and test generation. The prompts are one piece of it.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Will this work for my project?</h3>
+                <p>The workflow commands work for any project. The test generation and code review agents are Java/Spring Boot focused. If you use a different stack, you still get value from the spec generation and execution tracking.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do I get updates?</h3>
+                <p>Yes. All purchases include future updates. You can re-download from Gumroad anytime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Stop Writing Code You Can't Maintain</h2>
+            <p>Get the complete toolkit and start building with context that lasts.</p>
+            <a href="https://hathwar.gumroad.com/l/spec-driven-ai" class="cta-button">Get the Toolkit →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>Questions? <a href="mailto:samartha.hathwar@gmail.com">samartha.hathwar@gmail.com</a></p>
+            <p style="margin-top: 8px;">Also available: <a href="https://leanpub.com/ai-software-teams">Using AI in Real Software Teams</a> (the book)</p>
+        </div>
+    </footer>
+</body>
+</html>
