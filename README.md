@@ -12,20 +12,15 @@ When building large projects with AI coding assistants (like Claude Code), you t
 1.  **Context Loss:** The LLM forgets *why* a file was created or what the architectural goal was.
 2.  **Looping:** It starts rewriting the same code because it lost the execution plan.
 3.  **Ghost Code:** You end up with orphaned files and don't know if they are still needed.
+4.  **Traditional SDLC:** In traditional SDLC, there is no defined workflow for development with an AI coding assistant, meaning you just prompt the requirement vaguely and get the task done but if a bug or change request comes, then AI has no idea why this was developed or the initial requirement of the feature. 
+
+![Standard SDLC - The Problem](BE%20followed%20SDLC.png)
 
 **The cause?** Chat sessions are ephemeral. Your project state is not.
 
-## ⚡ The Solution: 3-Phase State Management
+## ⚡ The Solution: Spec-Driven State Management
 
 This repository implements a **Spec-Driven Workflow** that forces Claude to track its own state using markdown files directly in your project. It moves every feature through three strict phases:
-
-```mermaid
-graph LR
-    A[Architect Spec] -->|Define| B(Dev Spec)
-    B -->|Plan| C{Execution Plan}
-    C -->|Active| D[.claude/in-progress/]
-    D -->|Done| E[.claude/executed/]
-```
 
 1.  **Planning (`.claude/specs/plans/`)**: High-level architectural decisions and "Why we are building this."
 2.  **In-Progress (`.claude/specs/in-progress/`)**: The active "Context Anchor" for the current session.
@@ -33,27 +28,14 @@ graph LR
 
 > **Why this works:** Markdown files are "context-cheap" for LLMs to read, whereas re-reading your entire codebase to guess the state is "context-expensive" and error-prone.
 
----
-
-## 📂 Free Resources in this Repo
-
-We have open-sourced the core methodology and prompt engineering files so you can implement this workflow manually.
-
-### 1. The Core Rules
-* **[`CLAUDE.md`](./CLAUDE.md)**: The "Brain" of the system. Drop this file into your project root. It instructs Claude Code to check `.claude/specs/` before writing code and enforces the 3-step workflow.
-
-### 2. Spec Generators (Prompt Engineering)
-* **[`prompts/architect-spec-generator-prompt.md`](./prompts/architect-spec-generator-prompt.md)**: Generates high-level system design (API Contracts, Security, Data Flow).
-* **[`prompts/development-spec-generator-github-prompt.md`](./prompts/development-spec-generator-github-prompt.md)**: Converts the architect spec into actionable, step-by-step coding tasks.
-
-### 3. Specialized Skills & Agents
-* **[`skills/spring-boot-unit-test.md`](./skills/spring-boot-unit-test.md)**: An advanced skill that detects your project's testing patterns (BaseTest, TestDataBuilder) and writes JUnit 5 tests automatically.
-* **[`agents/java-code-reviewer.md`](./agents/java-code-reviewer.md)**: An agent definition that auto-activates on `.java` file edits to check for OWASP security issues and performance bottlenecks.
-* **[`agents/api-test-reviewer.md`](./agents/api-test-reviewer.md)**: Auto-reviews your Controller tests for coverage gaps and assertion quality.
+![Spec-Driven SDLC - The Solution](BE%20proposed%20SDLC%20with%20claude.png)
 
 ---
 
 ## 🚀 How to Use (The Protocol)
+This isn't just a concept—it's a strict workflow. The diagram below outlines the exact steps and CLI commands (like `/spec`, `java-code-review`) used to enforce quality.
+
+![Detailed Workflow Steps](generic-workflow.png)
 
 ### Step 1: Install the Rules
 Copy `CLAUDE.md` to your project root. Create the folder structure:
@@ -62,9 +44,9 @@ mkdir -p .claude/specs/{plans,in-progress,plans-executed}
 ```
 
 ### Step 2: Generate a Spec
-Use the provided prompts to create your first feature spec.
-* **Input:** "I need a User API for registration."
-* **Output:** Save the result to `.claude/specs/user-api.md`.
+Use the provided prompts or the GPTs to create your first feature spec.
+* Provide all the required inputs for generating the architect specification and then the development specification
+* Save the development specification to `.claude/specs/user-api.md`.
 
 ### Step 3: Execute with State
 Ask Claude:
@@ -74,6 +56,15 @@ Claude will now:
 1.  Create a plan in `.claude/specs/plans/`.
 2.  Move items to `.claude/specs/in-progress/` as it works.
 3.  Move the final log to `.claude/specs/plans-executed/` when done.
+
+---
+
+## 📂 Free Resources in this Repo
+We have open-sourced the prompt engineering files so you can implement this workflow manually.
+
+### 1. Spec Generators (Prompt Engineering)
+* **[`prompt/architect-spec-generator-prompt.md`](./prompt/architect-spec-generator-prompt.md)**: Generates high-level system design (API Contracts, Security, Data Flow) or use my custom GPT [Architect API Specification Generator](https://chatgpt.com/g/g-69464d55b1608191887671e189c7ef24-architect-api-specification-generator) for generating the high-level specification.
+* **[`prompt/development-spec-generator-prompt.md`](./prompt/development-spec-generator-prompt.md)**: Converts the architect spec into actionable, step-by-step coding tasks or use my custom GPT [Development Specification Generator](https://chatgpt.com/g/g-6946691f808081919ae448904de05cbd-development-specification-generator) for generating the development specification.
 
 ---
 
