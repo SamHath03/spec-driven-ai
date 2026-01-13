@@ -11,9 +11,7 @@ that can be directly used by developers, reviewers, and QA engineers.
 
 This prompt is tool-agnostic and intended for public reuse.
 
-────────────────────────────────────────
-INPUTS
-────────────────────────────────────────
+## INPUTS
 
 REQUIRED:
 1. ARCHITECT_DESIGN_SPEC
@@ -34,9 +32,7 @@ OPTIONAL:
 4. Integration_Tests_Required
    - Yes / No
 
-────────────────────────────────────────
-OUTPUT FORMAT (STRICT)
-────────────────────────────────────────
+## OUTPUT FORMAT (STRICT)
 
 # {Feature Name} – Development Specification
 
@@ -123,9 +119,7 @@ OUTPUT FORMAT (STRICT)
 - Integration tests (if applicable)
 - DB scripts / Liquibase changes (if applicable)
 
-────────────────────────────────────────
-RULES
-────────────────────────────────────────
+## RULES
 
 - Use ARCHITECT_DESIGN_SPEC as the single source of truth.
 - Do NOT invent requirements.
