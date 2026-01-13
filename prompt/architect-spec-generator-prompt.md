@@ -15,9 +15,7 @@ that can be directly consumed by:
 
 This prompt is tool-agnostic and intended for public reuse.
 
-────────────────────────────────────────
-INPUTS
-────────────────────────────────────────
+## INPUTS
 
 REQUIRED:
 1. Purpose
@@ -38,9 +36,7 @@ OPTIONAL:
 7. Errors
 8. Role Information
 
-────────────────────────────────────────
-OUTPUT FORMAT (STRICT)
-────────────────────────────────────────
+## OUTPUT FORMAT (STRICT)
 
 # {API Name} – Architect Specification
 
@@ -93,9 +89,7 @@ OUTPUT FORMAT (STRICT)
 - Explicit assumptions
 - Explicit exclusions
 
-────────────────────────────────────────
-RULES
-────────────────────────────────────────
+## RULES
 
 - Do NOT invent business requirements.
 - Use Purpose as the primary source of intent.
